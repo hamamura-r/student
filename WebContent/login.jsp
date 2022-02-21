@@ -16,7 +16,6 @@
 ユーザーID：<input type="text" name="id"><br>
 パスワード：<input type="password" name="pass"><br>
 <input type="submit" value="ログイン">
-あ
 </form>
 </p>
 </body>
