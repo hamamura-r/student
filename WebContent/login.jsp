@@ -10,10 +10,14 @@
 </head>
 <body>
 <h1>生徒情報システムログイン画面</h1>
+
+<p style="color: red">
 <form action="/sudentInformation/Login" method="post">
 ユーザーID：<input type="text" name="id"><br>
 パスワード：<input type="password" name="pass"><br>
 <input type="submit" value="ログイン">
+あ
 </form>
+</p>
 </body>
 </html>
