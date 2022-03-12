@@ -9,7 +9,7 @@ public class Student implements Serializable{
 	
 	//コンストラクタを定義
 	public Student() {}
-	public Student(String name,String id) {
+	public Student(String id,String name) {
 		this.studentName = name;
 		this.studentId = id;
 	}

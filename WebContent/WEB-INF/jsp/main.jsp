@@ -5,15 +5,19 @@
 //セッションスコープ保存されているログインユーザー情報を取得する
 User loginUser = (User)session.getAttribute("loginUser");
 %>
+
 <%
-//アプリケーションスコープ保存されているつぶやき情報を取得する
-List<Student> studentList = (List<Student>)application.getAttribute("studentList");
-%>
-<%
+//リクエストスコープの生徒情報を取得する
+List<Student> studentList = (List<Student>)request.getAttribute("studentList");
 //リクエストスコープにエラーメッセージがあれば取得する
 String errorMsg = (String)request.getAttribute("errorMsg");
+
+//削除したときに、削除処理依頼がきた生徒のIDがリクエストパラメータとしてきているので、それを取得しておく
+request.setCharacterEncoding("UTF-8");
+String deleteId = request.getParameter("deleteId");
 %>
-    
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,11 +43,16 @@ ID：<input type="text" name="id"><br>
 	<p><%=errorMsg %></p>
 <% }%>
 
+<%if(deleteId != null){ %>
+ID:<%=deleteId%>の生徒を削除しました。
+<%} %>
 <!-- 生徒リストを表示 -->
 <% for(Student student : studentList){ %>
-	<p>
-	ID：<%=student.getStudentId() %>　,	氏名：<%=student.getStudentName() %>さん
-	</p>
+	<form action = "/studentInformation/Delete"  method = "post">
+	ID：<%=student.getStudentId() %>　氏名：<%=student.getStudentName() %>さん　
+	<input type="hidden" name="deleteId" value=<%=student.getStudentId()%>>
+	<input type="submit" value="削除">
+	</form>
 <% }%>
 </body>
 </html>
