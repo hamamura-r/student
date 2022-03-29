@@ -14,7 +14,11 @@ public class Student implements Serializable{
 		this.studentId = id;
 	}
 	
-	//ユーザー名とパスワードの取得メソッドを定義
+	//生徒名とパスワードの取得メソッドを定義
 	public String getStudentName() {return studentName;}
 	public String getStudentId() {return studentId;}
+	
+	//生徒名とパスワードの再登録メソッドを定義
+	public void setStudentName(String name) {studentName = name; }
+	public void setStudentId(String id) {studentId = id; }
 }

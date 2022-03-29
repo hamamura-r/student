@@ -112,7 +112,71 @@ public class studentDao {
 		}
 		return true;
 	}
+	
+	//ここからID指定による生徒情報取得メソッド
+	public Student findOne(String updateId) {
+		//戻り値として返すStudentインスタンスを生成しておく
+		Student student = new Student();		
+		//JDBCドライバへの接続
+		try {
+			Class.forName("com.mysql.cj.jdbc.driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}		
+		//コネクションの作成
+		try(Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);) {
+			//データベースへ送る宣言文の作成。sqlコマンドはあらかじめ宣言しておく
+			String sql = "select * from personal where id = ?";
+			PreparedStatement pStmt = conn.prepareStatement(sql);		
+			//宣言文の？の指定
+			pStmt.setString(1, updateId);			
+			//宣言文の実行
+			ResultSet rs = pStmt.executeQuery();			
+			//取得した生徒情報を変数に代入して、インスタンスを生成		
+			rs.next(); 
+			//取得した値を変数に代入
+			String studentId = rs.getString("ID");
+			String studentName = rs.getString("NAME");				
+			//StudentインスタンスのIDと名前をセットする
+			student.setStudentId(studentId);
+			student.setStudentName(studentName);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
+		return student;
+	}
+	
+	
+	//ここから生徒情報更新メソッド（選んだIDの生徒情報を、新しく入力された情報に置き換える）
+		public boolean update(Student student,String oldId) {
+			//データベースに接続(マネージャで道インスタンスを作る)
+			try{
+				//JDBCドライバ？クラスをプロジェクトにロードしておく？
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				
+				Connection conn = DriverManager.getConnection(JDBC_URL , DB_USER , DB_PASS);		
+				//update文を作っておく（道で命令文インスタンスを作る）
+				String sql = "update personal set id=?, name=? where id = ?";
+				PreparedStatement pStmt = conn.prepareStatement(sql);
+				
+				pStmt.setString(1,student.getStudentId());
+				pStmt.setString(2,student.getStudentName());
+				pStmt.setString(3,oldId);
+				
+				//命令文で更新を実行する
+				int result = pStmt.executeUpdate();
+				if(result != 1) {
+					return false;
+				}		
+			}catch(SQLException | ClassNotFoundException e) {
+						e.printStackTrace();
+						return false;
+			}
+			return true;
+		}
+	
 	
 	
 	
