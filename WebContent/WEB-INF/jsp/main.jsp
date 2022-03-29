@@ -38,21 +38,28 @@ ID：<input type="text" name="id"><br>
 <input type="submit" value="IDと氏名を登録">
 </form>
 
-<!-- 項目不足のときのエラー表示 -->
+<!-- 生徒登録の入力項目不足のときのエラー表示 -->
 <% if(errorMsg != null){ %>
 	<p><%=errorMsg %></p>
 <% }%>
 
+<!-- 削除処理をしたときの一時的な表示 -->
 <%if(deleteId != null){ %>
-ID:<%=deleteId%>の生徒を削除しました。
+ID:<%=deleteId%>の生徒を削除しました。<br>
 <%} %>
-<!-- 生徒リストを表示 -->
+
+<!-- 登録済の生徒リストを表示 -->
 <% for(Student student : studentList){ %>
-	<form action = "/studentInformation/Delete"  method = "post">
+	<form action = "/studentInformation/Update"  method = "post" style="display:inline-block">
 	ID：<%=student.getStudentId() %>　氏名：<%=student.getStudentName() %>さん　
+	<input type="hidden" name="updateId" value=<%=student.getStudentId()%>>
+	<input type="submit" value="編集">
+	</form>
+	<form action = "/studentInformation/Delete"  method = "post" style="display:inline-block">
 	<input type="hidden" name="deleteId" value=<%=student.getStudentId()%>>
 	<input type="submit" value="削除">
 	</form>
+	<br>
 <% }%>
 </body>
 </html>
